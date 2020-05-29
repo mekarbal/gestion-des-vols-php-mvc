@@ -1,0 +1,48 @@
+table.flights{
+    background-image: url('..\\images\\Plane-4K.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  
+}
+
+table.reserve tbody tr{
+    cursor: pointer;
+}
+
+table.flights tbody tr{
+cursor: pointer;
+color: white;
+background-color: rgba(0, 0, 0, 0.7);
+}
+
+table.reserve tbody tr:hover{
+    color: dodgerblue;
+}
+
+table.flights tbody tr:hover{
+    color: orangered;
+}
+
+.btn-primary{
+    border: none;
+    background-color: #333;
+}
+.btn-primary:hover{
+    background-color: orangered;
+}
+.jumbotron {
+    background-color: rgba(255, 255, 255, .4);
+}
+.tab-content{
+    background-color: rgba(255, 255, 255, .8);
+}
+li a.nav-link{
+    color: white;
+}
+body{
+    background-image: url('..\\images\\bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}

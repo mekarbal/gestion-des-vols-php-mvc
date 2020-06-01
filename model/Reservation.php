@@ -1,5 +1,6 @@
 <?php 
-require_once("inheret_functions.php");
+require_once("AllFunction.php");
+require_once("../model/Vol.php");
 class Reservation extends Functions{
 
     private $id_flight;
@@ -25,31 +26,28 @@ class Reservation extends Functions{
     }
 
     public function create_new($post, $names){
-        $issafe = true;
+        $saved = true;
 
-        $this->id_flight  = $this->safe_data($post, $names[0],$issafe);
-        $this->id_user    = $this->safe_data($post, $names[1],$issafe); 
+        $this->id_flight  = $this->eng_data($post, $names[0],$saved);
+        $this->id_user    = $this->eng_data($post, $names[1],$saved); 
 
-        if($issafe){
-            $query = "INSERT INTO {$this->table_name} (";
-            $query .= "id_flight, id_user";
-            $query .= ") VALUES (";
-            $query .= "{$this->id_flight}, {$this->id_user})";
-
+        if($saved){
+            $query = "INSERT INTO {$this->table_name} (id_flight, id_user) VALUES ({$this->id_flight}, {$this->id_user})";
+            
             $result = $this->mysqli->query($query);
             if($result){
                 $this->id = $this->mysqli->insert_id;
                 $this->has_row = true;
                 return true;
             }else{
-                die("Error in : " . $query . "<br>" . $this->mysqli->error);
+                die("Error in : " . $query . "<br>" . $this->mysqli->error );
             }
         }else{
             return false;
         }
     }
 
-    public function create_from_id($id){
+    public function getId($id){
         $query = "SELECT * FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
         $result = $this->mysqli->query($query);
         if($result){

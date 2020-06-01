@@ -1,9 +1,9 @@
 <?php 
-require_once("../controller/session_handler.php");
+require_once("../controller/session_msgs.php");
 require_once("../model/functions.php");
 
 $user = new User();
-if (isset($_POST["singin"])){
+if (isset($_POST["sigin"])){
 
   $user->create_new($_POST, ["fname", "lname", "bday", "nation", "passport", "idcard", "email", "phone", "pswd"]);
 
@@ -18,7 +18,7 @@ if (isset($_POST["singin"])){
       exit;
     }else{
         $_SESSION['state'] = "success";
-        $_SESSION['message'] = "Your account is created successfully";
+        $_SESSION['message'] = "Votre Compte Creer avec Successer <i class='far fa-smile'></i>";
         header("Location: ../view/index.php");
         exit;
     }
@@ -38,14 +38,14 @@ if (isset($_POST["singin"])){
       exit;
     }else{
       $_SESSION['state'] = "success";
-      $_SESSION['message'] = "Welcome back!";
+      $_SESSION['message'] = "Soyez Bienvenu Dans Votre Compte<i class='far fa-smile'></i>";
       header("Location: ../view/index.php");
       exit;
     }
   }else{
     $_SESSION['state'] = "danger";
-    $_SESSION['message'] = "The email or the password is not correct";
-    header("Location: ../view/sing.php");
+    $_SESSION['message'] = "Email ou password incorrect";
+    header("Location: ../view/sign.php");
   }
 }else {
   header("Location: ../view/index.php");

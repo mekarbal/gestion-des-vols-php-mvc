@@ -1,23 +1,23 @@
 <?php
-require_once("../controller/session_handler.php");
+require_once("../controller/session_msgs.php");
 require_once("../model/functions.php");
 
 if (isset($_POST["reserve"])){
     $reservation = new Reservation();
-    $travler = new Travler();
+    $passager = new Passager();
 
     $reservation->create_new($_POST, ['idFlight', 'idUser']);
     $_POST['idReservation'] = $reservation->get_id();
 
-    $travler->create_new($_POST, ['idUser', 'idFlight', 'idReservation', 'firstname', 'lastname', 'passport']);
-    if($reservation->is_has_row() && $travler->is_has_row()){
+    $passager->create_new($_POST, ['idUser', 'idFlight', 'idReservation', 'firstname', 'lastname', 'passport']);
+    if($reservation->is_has_row() && $passager->is_has_row()){
         $_SESSION['state'] = "success";
-        $_SESSION['message'] = "Your reservation is done successfully";
+        $_SESSION['message'] = "Votre resrvztion ajouter avec successer";
         header("Location: ../view/index.php");
         exit;
     }else{
         $_SESSION['state'] = "danger";
-        $_SESSION['message'] = "Oh no, something went wrong!";
+        $_SESSION['message'] = "Vous avez quelque chose erroné";
         header("Location: ../view/reserve.php?id={$_POST['idFlight']}");
     }
 

@@ -8,7 +8,7 @@
     protected $id_name = null;
 
     function __construct(){
-        $this->mysqli = new mysqli("localhost", "root", "", "flightManagmentP2", "3306");
+        $this->mysqli = new mysqli("localhost", "root", "", "vols_mvc");
         if ($this->mysqli->connect_error) {
             die("Connection failed: " . $mysqli->connect_error);
         }
@@ -26,15 +26,14 @@
         return $this->id;
     }
 
-    protected function safe_data($post,$name,&$issafe){
+    protected function eng_data($post,$name,&$saved){
         if(isset($post[$name]) && trim($post[$name]) !== ""){
             return $this->mysqli->real_escape_string(trim($post[$name]));
         }else{
-            $issafe = false;
+            $saved = false;
             return null;
         }
     }
-
     public function update_row($assoc){
         $query = "UPDATE {$this->table_name} SET ";
         foreach($assoc as $key => $val){
@@ -43,31 +42,16 @@
         }
         $query = rtrim($query, ","); //remove the last , from the query
         $query .= " WHERE {$this->id_name} = {$this->id}";
-        $result = $this->mysqli->query($query);
+        $result = mysqli_query($this->mysqli,$query);
         if($result){
-            if($result->affected_rows == 1){
+            if(mysqli_affected_rows($this->mysqli) == 1){
                 return true;
             }
         }else{
-            die("Error in : " . $query . "<br>" . $this->mysqli->error);
+            die("Error in : " . $query . "<br>" . mysqli_error($this->mysqli));
         }
         return false;
     }
 
-    public function delete_row(){
-        if($this->has_row){
-            $query = "DELETE from {$this->table_name} WHERE {$this->id_name} = {$this->id}";
-            $result = $this->mysqli->query($query);
-            if($result){
-                if($result->affected_rows == 1){
-                    $this->has_row = false;
-                    return true;
-                }
-            }else{
-                die("Error in : " . $query . "<br>" . $this->mysqli->error);
-            }
-        }
-        return false;
-    }
  }
 ?>

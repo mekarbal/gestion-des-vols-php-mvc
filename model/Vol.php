@@ -1,18 +1,20 @@
 <?php 
-require_once("inheret_functions.php");
-class Flight extends Functions{
+require_once("AllFunction.php");
+class Vol extends Functions{
 
     private $id_flight;
-    private $plane_name;
+    private $n_flight;
     private $depart;
     private $distination;
     private $date_flight;
+    private $hour_flight;
+    private $minute_flight;
     private $price;
     private $total_places;
     private $is_active;
 
     function __construct(){
-        $this->table_name = "Flight";
+        $this->table_name = "flight";
         $this->id_name = "id_flight";
         Functions::__construct();
     }
@@ -23,10 +25,12 @@ class Flight extends Functions{
 
     public function get_data(){
         return [
-            "plane_name"    =>  $this->plane_name,
+            "n_flight"      =>  $this->n_flight,
             "depart"        =>  $this->depart,
             "distination"   =>  $this->distination,
             "date_flight"   =>  $this->date_flight,
+            "hour_flight"   =>  $this->hour_flight,
+            "minute_flight" =>  $this->minute_flight,
             "price"         =>  $this->price,
             "total_places"  =>  $this->total_places,
             "is_active"     =>  $this->is_active
@@ -34,22 +38,22 @@ class Flight extends Functions{
     }
 
     public function create_new($post, $names){
-        $issafe = true;
+        $reg = true;
 
-        $this->plane_name   = $this->safe_data($post, $names[0],$issafe);
-        $this->depart       = $this->safe_data($post, $names[1],$issafe); 
-        $this->distination  = $this->safe_data($post, $names[2],$issafe);
-        $this->date_flight  = $this->safe_data($post, $names[3],$issafe);
-        $this->total_places = $this->safe_data($post, $names[4],$issafe);
-        $this->price        = $this->safe_data($post, $names[5],$issafe);
-        $this->is_active    = $this->safe_data($post, $names[6],$issafe);
+        $this->n_flight     = $this->eng_data($post, $names[0],$reg);
+        $this->depart       = $this->eng_data($post, $names[1],$reg); 
+        $this->distination  = $this->eng_data($post, $names[2],$reg);
+        $this->date_flight  = $this->eng_data($post, $names[3],$reg);
+        $this->hour_flight  = $this->eng_data($post, $names[4],$reg);
+        $this->minute_flight= $this->eng_data($post, $names[5],$reg);
+        $this->total_places = $this->eng_data($post, $names[6],$reg);
+        $this->price        = $this->eng_data($post, $names[7],$reg);
+        $this->is_active    = $this->eng_data($post, $names[8],$reg);
 
-        if($issafe){
-            $query = "INSERT INTO {$this->table_name} (";
-            $query .= "plane_name, depart, distination, date_flight, total_places, price, is_active";
-            $query .= ") VALUES (";
-            $query .= "'{$this->plane_name}', '{$this->depart}', '{$this->distination}', ";
-            $query .= "'{$this->date_flight}', {$this->total_places}, {$this->price}, {$this->is_active})";
+        if($reg){
+            
+            $query = "INSERT INTO {$this->table_name} (n_flight, depart, distination, date_flight,hour_flight,minute_flight, total_places, price, is_active) VALUES ('{$this->n_flight}', '{$this->depart}', '{$this->distination}','{$this->date_flight}','{$this->hour_flight}', '{$this->minute_flight}',{$this->total_places}, {$this->price}, {$this->is_active})";
+            
             $result = $this->mysqli->query($query);
             if($result){
                 if($result->affected_rows == 1){
@@ -58,24 +62,26 @@ class Flight extends Functions{
                     return true;
                 }
             }else{
-            die("Error in : " . $query . "<br>" . $this->mysqli->error);
+            die("Error in : " . $query . "<br>" . mysqli_error($this->mysqli));
             }
         }else{
             return false;
         }
     }
 
-    public function create_from_id($id){
-        $query = "SELECT * FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
+    public function get_by_id($id){
+        $query = "SELECT * FROM flight WHERE {$this->id_name} = {$id}";
         $result = $this->mysqli->query($query);
         if($result){
             if($result->num_rows > 0){
                 $row = $result->fetch_assoc();
                 $this->id           = $row["id_flight"];
-                $this->plane_name   = $row["plane_name"];
+                $this->n_flight     = $row["n_flight"];
                 $this->depart       = $row["depart"];
                 $this->distination  = $row["distination"]; 
                 $this->date_flight  = $row["date_flight"];
+                $this->hour_flight  = $row["hour_flight"];
+                $this->minute_flight  = $row["minute_flight"];
                 $this->price        = $row["price"];
                 $this->total_places = $row["total_places"];
                 $this->is_active    = $row["is_active"];
@@ -90,5 +96,6 @@ class Flight extends Functions{
             die("Error in : " . $query . "<br>" . $this->mysqli->error);
         }
     }
+    
 }
 ?>

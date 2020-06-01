@@ -1,5 +1,5 @@
 <?php 
-require_once("../controller/session_handler.php");
+require_once("../controller/session_msgs.php");
 require_once("../model/functions.php");
 
 if(!isset($_SESSION['id'])){
@@ -10,112 +10,105 @@ include("../layout/header.php");
 open_connetion();
 $user = new User();
 $reservations = null;
-$user->create_from_id($_SESSION['id']);
+$user->get_by_id($_SESSION['id']);
 if(isset($_SESSION['id'])){
-  $reservations = get_travlers_objects("WHERE id_user = {$_SESSION['id']} ORDER BY id_travler DESC");
+  $reservations = get_pass_objts("WHERE id_user = {$_SESSION['id']} ORDER BY id_travler DESC");
 }
 close_connection();
 ?>
-<div class="jumbotron jumbotron-fluid mb-0">
+<div class=" mb-0 mt-5">
   <div class="container">
     <?php echo message();?>
-    <h1>Your Profile Information</h1>
-    <div class="row mt-4" style="background-color: rgba(255,255,255,0.9);">
+    <h1 class="text-center">Vos Information</h1>
+    <div class="row mt-4" style="background-color: rgba(202, 233, 253, 0.7);">
       <div class="col-xs-12 col-sm-6">
         <div class="row my-2">
-          <div class="col-4 text-primary">First Name: </div>
+          <div class="col-4 text-success font-weight-bold">Nom: </div>
           <div class="col-8"><?php echo $user->get_data()['first_name']; ?></div>
         </div>
         <div class="row my-2">
-          <div class="col-4 text-primary">Last Name: </div>
+          <div class="col-4 text-success font-weight-bold">Prénom: </div>
           <div class="col-8"><?php echo $user->get_data()['last_name']; ?></div>
         </div>
         <div class="row my-2">
-          <div class="col-4 text-primary">Passport N°: </div>
+          <div class="col-4 text-success font-weight-bold">N° Passport: </div>
           <div class="col-8"><?php echo $user->get_data()['passport']; ?></div>
         </div>
         <div class="row my-2">
-          <div class="col-4 text-primary">Card ID N°: </div>
-          <div class="col-8"><?php echo $user->get_data()['id_card']; ?></div>
+          <div class="col-4 text-success font-weight-bold">CIN: </div>
+          <div class="col-8"><?php echo $user->get_data()['cin']; ?></div>
         </div>
-        <div class="row my-2">
-          <div class="col-4 text-primary">State: </div>
-          <div class="col-8"><?php echo ucfirst($user->get_data()['role']); ?></div>
-        </div>
+        
       </div>
       <div class="col-xs-12 col-sm-6">
         <div class="row my-2">
-          <div class="col-4 text-primary">Birthday: </div>
-          <div class="col-8"><?php echo $user->get_data()['birthday']; ?></div>
-        </div>
-        <div class="row my-2">
-          <div class="col-4 text-primary">Email: </div>
+          <div class="col-4 text-success font-weight-bold">Email: </div>
           <div class="col-8"><?php echo $user->get_data()['email']; ?></div>
         </div>
         <div class="row my-2">
-          <div class="col-4 text-primary">Country: </div>
+          <div class="col-4 text-success font-weight-bold">Pays </div>
           <div class="col-8"><?php echo $user->get_data()['nationality']; ?></div>
         </div>
         <div class="row my-2">
-          <div class="col-4 text-primary">Phone N°: </div>
+          <div class="col-4 text-success font-weight-bold">N° Téléphone: </div>
           <div class="col-8"><?php echo $user->get_data()['phone']; ?></div>
+        </div>
+        <div class="row my-2">
+          <div class="col-4 text-success font-weight-bold">Role: </div>
+          <div class="col-8"><?php echo ucfirst($user->get_data()['role']); ?></div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
+<hr>
+  <h1 class="text-center text-white mt-5 mb-5">Toutes Vos reservations</h1>
+  <hr>
 <div class="container">
+
   <?php 
   if(!empty($reservations)){
 ?>
-  <table class="table table-striped mt-4 reserve" style="background-color: rgba(255, 255, 255, 0.9);">
+  <table class="table table-striped mt-4 reserve" style="background-color: rgba(202, 233, 253, 0.7);">
     <thead>
-      <tr>
-        <th>Date Reservation</th>
-        <th>Reserved For</th>
-        <th>Depart / Destination</th>
+      <tr class="text-center">
+        <th>Reserver Pour</th>
+        <th>Date de Reservation</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-center">
       <?php foreach($reservations as $reservation){
-      $flight = new Flight();
-      $resere = new Reservation();
+          $flight = new Vol();
+          $resere = new Reservation();
 
-      $flight->create_from_id($reservation->get_data()["id_flight"]);
-      $resere->create_from_id($reservation->get_data()["id_resevation"]);
+          $flight->get_by_id($reservation->get_data()["id_flight"]);
+          $resere->getId($reservation->get_data()["id_resevation"]);
 
-      $date = $resere->get_data()["date_resevation"];
-      $for = ($reservation->get_data()["passport"] == $_SESSION['passport']) ?
-       "You" : "". $reservation->get_data()["first_name"] . 
-       " " . $reservation->get_data()["last_name"];
-      $from = "From <b>". $flight->get_data()["depart"] . 
-      "</b> To <b>" . $flight->get_data()["distination"] . "</b>";
+          $date = $resere->get_data()["date_resevation"];
+          $pour = ($reservation->get_data()["passport"] == $_SESSION['passport']) ? "Moi" : "". $reservation->get_data()["first_name"] ."". $reservation->get_data()["last_name"];
 
-    ?>
+        ?>
 
-      <tr onclick="loadInfo(<?php echo $reservation->get_id(); ?>);" 
-      data-toggle="modal" data-target="#showInfo">
-        <td><?php echo $date ?></td>
-        <td><?php echo $for ?></td>
-        <td><?php echo $from ?></td>
+          <tr onclick="loadInfo(<?php $reservation->get_data()['id_resevation'];?>)" data-toggle="modal" data-target="#showInfo">
+            <td><?php echo $pour ?></td>
+            <td><?php echo $date ?></td>
+            
       </tr>
       <?php } ?>
     </tbody>
   </table>
   <?php }else { ?>
-  <h3 class="text-white text-center mt-4">There is no reservation yet</h3>
+  <h3 class="text-white text-center mt-4">Il y a pas des reservations pour le moment</h3>
   <?php } ?>
 </div>
 
-
+</div>
 <!-- info modal -->
 <div class="modal fade" id="showInfo">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog modal-lg">
     <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Extra Information</h5>
+      <div class="modal-header text-center">
+        <h5 class="modal-title text-center" >Les informations de reservation</h5>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
@@ -123,29 +116,29 @@ close_connection();
       <div class="row">
       <div class="col-xs-12 col-sm-6">
         <div class="row my-2">
-          <div class="col-6 text-primary">For: </div>
+          <div class="col-6 text-success">Pour</div>
           <div class="col-6"><span id="fullName"></span></div>
         </div>
         <div class="row my-2">
-          <div class="col-6 text-primary">Date Reservation: </div>
+          <div class="col-6 text-success">Date Reservation: </div>
           <div class="col-6"><span id="dateR"></span></div>
         </div>
         <div class="row my-2">
-          <div class="col-6 text-primary">Depart / Destination: </div>
+          <div class="col-6 text-success">Depart / Destination: </div>
           <div class="col-6"><span id="line"></span></div>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6">
       <div class="row my-2">
-          <div class="col-6 text-primary">Depart On: </div>
+          <div class="col-6 text-success">l'heure de départ </div>
           <div class="col-6"><span id="dateD"></span></div>
         </div>
         <div class="row my-2">
-          <div class="col-6 text-primary">Flights Company: </div>
+          <div class="col-6 text-success">Nom de vol</div>
           <div class="col-6"><span id="planName"></span></div>
         </div>
         <div class="row my-2">
-          <div class="col-6 text-primary">Price: </div>
+          <div class="col-6 text-success">Price: </div>
           <div class="col-6"><span id="price"></span></div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <?php 
-require_once("inheret_functions.php");
-class Travler extends Functions{
+require_once("AllFunction.php");
+class Passager extends Functions{
 
     private $id_user;
     private $id_flight;
@@ -10,7 +10,7 @@ class Travler extends Functions{
     private $passport;
 
     function __construct(){
-        $this->table_name = "Travler";
+        $this->table_name = "passagers";
         $this->id_name = "id_travler";
         Functions::__construct();
     }
@@ -31,20 +31,19 @@ class Travler extends Functions{
     }
 
     public function create_new($post, $names){
-        $issafe = true;
+        $saved = true;
 
-        $this->id_user         = $this->safe_data($post, $names[0],$issafe);
-        $this->id_flight       = $this->safe_data($post, $names[1],$issafe);
-        $this->id_resevation   = $this->safe_data($post, $names[2],$issafe);
-        $this->first_name      = $this->safe_data($post, $names[3],$issafe); 
-        $this->last_name       = $this->safe_data($post, $names[4],$issafe); 
-        $this->passport        = $this->safe_data($post, $names[5],$issafe); 
+        $this->id_user         = $this->eng_data($post, $names[0],$saved);
+        $this->id_flight       = $this->eng_data($post, $names[1],$saved);
+        $this->id_resevation   = $this->eng_data($post, $names[2],$saved);
+        $this->first_name      = $this->eng_data($post, $names[3],$saved); 
+        $this->last_name       = $this->eng_data($post, $names[4],$saved); 
+        $this->passport        = $this->eng_data($post, $names[5],$saved); 
 
-        if($issafe){
-            $query = "INSERT INTO {$this->table_name} (";
-            $query .= "id_user, id_flight, id_resevation, first_name, last_name, passport";
-            $query .= ") VALUES (";
-            $query .= "{$this->id_user}, {$this->id_flight}, {$this->id_resevation}, '{$this->first_name}', '{$this->last_name}', '{$this->passport}')";
+        if($saved){
+            $query .= "INSERT INTO {$this->table_name} (id_user, id_flight, id_resevation, first_name, last_name, passport ) 
+                        VALUES
+                         ({$this->id_user}, {$this->id_flight}, {$this->id_resevation}, '{$this->first_name}', '{$this->last_name}', '{$this->passport}')";
 
             $result = $this->mysqli->query($query);
             if($result){
@@ -59,7 +58,7 @@ class Travler extends Functions{
         }
     }
 
-    public function create_from_id($id){
+    public function get_by_id($id){
         $query = "SELECT * FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
         $result = $this->mysqli->query($query);
         if($result){

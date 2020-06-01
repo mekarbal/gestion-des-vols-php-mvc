@@ -1,13 +1,13 @@
 <?php 
-require_once("../model/class_user.php");
-require_once("../model/class_flight.php");
-require_once("../model/class_reservation.php");
-require_once("../model/class_travler.php");
+require_once("../model/User.php");
+require_once("../model/Vol.php");
+require_once("../model/Reservation.php");
+require_once("../model/Passager.php");
 
 $connection = null;
 function open_connetion(){
     global $connection;
-    $connection = mysqli_connect("localhost", "root", "", "flightManagmentP2", "3306");
+    $connection = mysqli_connect("localhost", "root", "", "vols_mvc");
     if(mysqli_connect_errno()){
         die("Database coonection error: ".mysqli_connect_error() ." (".mysqli_connect_errno().")");
     }
@@ -18,28 +18,28 @@ function close_connection(){
      mysqli_close($connection);
 }
 
-function get_travlers_objects($where=null){
-    $objects = [];
-    $query = "SELECT id_travler FROM Travler" . (!empty($where) ? " ".$where : "");
+function get_pass_objts($where=null){
+    $objs = [];
+    $query = "SELECT id_travler FROM passagers" . (!empty($where) ? " ".$where : "");
     $result = get_rows($query);
     while($row = mysqli_fetch_row($result)){
-        $travler = new Travler();
-        $travler->create_from_id($row[0]);
-        $objects[] = $travler;
+        $travler = new Passager();
+        $travler->get_by_id($row[0]);
+        $objs[] = $travler;
     }
-    return $objects;
+    return $objs;
 }
 
 function get_flights_objects($where=null){
-    $objects = [];
-    $query = "SELECT id_flight FROM Flight" . (!empty($where) ? " ".$where : "");
+    $objs = [];
+    $query = "SELECT id_flight FROM flight   " . (!empty($where) ? $where : "");
     $result = get_rows($query);
     while($row = mysqli_fetch_row($result)){
-        $flight = new Flight();
-        $flight->create_from_id($row[0]);
-        $objects[] = $flight;
+        $flight = new Vol();
+        $flight->get_by_id($row[0]);
+        $objs[] = $flight;
     }
-    return $objects;
+    return $objs;
 }
 
 function get_rows($query){
@@ -52,12 +52,12 @@ function get_rows($query){
     }
 }
 
-function safe_data($value,$name,&$issafe){
+function data_regis($value,$name,&$saved){
     global $connection;
     if(isset($value[$name]) && trim($value[$name]) !== ""){
         return mysqli_real_escape_string($connection,trim($value[$name]));
     }else{
-        $issafe = false;
+        $saved = false;
         return null;
     }
 }

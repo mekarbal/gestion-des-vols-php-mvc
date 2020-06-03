@@ -1,6 +1,6 @@
 <?php 
-require_once("AllFunction.php");
-class Passager extends Functions{
+require_once("Config.php");
+class Passager extends Config{
 
     private $id_user;
     private $id_flight;
@@ -12,11 +12,11 @@ class Passager extends Functions{
     function __construct(){
         $this->table_name = "passagers";
         $this->id_name = "id_travler";
-        Functions::__construct();
+        Config::__construct();
     }
 
     function __destruct(){
-        Functions::__destruct();
+        Config::__destruct();
     }
 
     public function get_data(){
@@ -30,7 +30,7 @@ class Passager extends Functions{
         ];
     }
 
-    public function create_new($post, $names){
+    public function add_new($post, $names){
         $saved = true;
 
         $this->id_user         = $this->eng_data($post, $names[0],$saved);
@@ -48,7 +48,7 @@ class Passager extends Functions{
             $result = $this->mysqli->query($query);
             if($result){
                 $this->id_flight = $this->mysqli->insert_id;
-                $this->has_row = true;
+                $this->has_field = true;
                 return true;
             }else{
                 die("Error in : " . $query . "<br>" . $this->mysqli->error. "<br>Error number: " . $this->mysqli->errno);
@@ -71,7 +71,7 @@ class Passager extends Functions{
                 $this->first_name    = $row["first_name"];
                 $this->last_name     = $row["last_name"];
                 $this->passport      = $row["passport"];
-                $this->has_row       = true;
+                $this->has_field       = true;
 
                 $result->free_result();
                 return $this;

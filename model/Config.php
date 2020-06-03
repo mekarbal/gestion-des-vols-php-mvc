@@ -1,8 +1,7 @@
 <?php 
- abstract class Functions{
+ abstract class Config{
     protected $mysqli;
-    protected $has_row = false;
-
+    protected $has_field = false; // this table is has a field ?
     protected $id = null;
     protected $table_name = null;
     protected $id_name = null;
@@ -18,8 +17,8 @@
         $this->mysqli->close();
     }
 
-    public function is_has_row(){
-        return $this->has_row;
+    public function row(){
+        return $this->has_field;
     }
 
     public function get_id(){
@@ -34,7 +33,7 @@
             return null;
         }
     }
-    public function update_row($assoc){
+    public function update_row_table($assoc){
         $query = "UPDATE {$this->table_name} SET ";
         foreach($assoc as $key => $val){
             $query .= "{$key} = ";

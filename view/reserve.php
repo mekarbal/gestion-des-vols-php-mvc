@@ -27,30 +27,30 @@ $flight->get_by_id((int) $_GET['id']);
 
     <div class="tab-content mx-auto mt-5" >
         <div class="tab-pane container m-0 p-0 active" id="user">
-            <div class="card" style="background-color: rgba(202, 233, 253, 0.7);">
+            <div class="card bg-info" >
                 <div class="card-header">
                     <h4 class="card-title text-center">Confirmer Les informations de vol</h4>
                 </div>
                 <div class="card-body p-4 text-center">
-                    <p>De <span class="text-success font-weight-bold"><?php echo $flight->get_data()['depart']?></span> à
-                        <span class="text-success font-weight-bold"><?php echo $flight->get_data()['distination']?></span></p>
+                    <p>De <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['depart']?></span> à
+                        <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['distination']?></span></p>
                     <p>Reservation Pour <span
-                            class="text-success font-weight-bold"><?php echo $_SESSION['firstname']. ' '.$_SESSION['lastname']?></span></p>
-                    <p>Nom de Vol <span class="text-success font-weight-bold"><?php echo $flight->get_data()['n_flight']?></span></p>
-                    <p>Date de départ <span class="text-success font-weight-bold"><?php echo $flight->get_data()['date_flight']?></span></p>
+                            class="text-dark font-weight-bold"><?php echo $_SESSION['firstname']. ' '.$_SESSION['lastname']?></span></p>
+                    <p>Nom de Vol <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['n_flight']?></span></p>
+                    <p>Date de départ <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['date_flight']?></span></p>
                 </div>
                 <div class="card-footer" style="display: flex; justify-content: space-between;">
                     <div>
                         <p class="card-text">Total Price: <span
-                                class="text-success font-weight-bold"><?php echo $flight->get_data()['price']?>Dhs</span></p>
+                                class="text-dark font-weight-bold"><?php echo $flight->get_data()['price']?>Dhs</span></p>
                     </div>
-                    <form action="../controller/prococessus_reservation.php" method="POST">
+                    <form action="../controller/proc_vol.php" method="POST">
                         <input type="hidden" name="idUser" value="<?php echo $_SESSION['id'];?>">
                         <input type="hidden" name="idFlight" value="<?php echo (int) $_GET['id'];?>">
                         <input type="hidden" name="firstname" value="<?php echo $_SESSION['firstname'];?>">
                         <input type="hidden" name="lastname" value="<?php echo $_SESSION['lastname'];?>">
                         <input type="hidden" name="passport" value="<?php echo $_SESSION['passport'];?>">
-                        <button type="submit" class="btn btn-primary mx-auto" name="reserve">Confirm this reservation</button>
+                        <button type="submit" class="btn btn-success mx-auto" name="reserve">Valider Votre </button>
                     </form>
                 </div>
             </div>
@@ -59,18 +59,18 @@ $flight->get_by_id((int) $_GET['id']);
 
         <div class="tab-pane container m-0 p-0 fade" id="guest">
 
-            <form action="../controller/prococessus_reservation.php" method="POST" class="needs-validation" novalidate>
+            <form action="../controller/proc_vol.php" method="POST" class="needs-validation" novalidate>
 
-                <div class="card"  style="background-color: rgba(202, 233, 253, 0.7);">
+                <div class="card bg-info"  >
                     <div class="card-header">
                         <h4 class="card-title text-center">Remplire les informations</h4>
                     </div>
                     <div class="card-body p-4 text-center">
 
-                        <p>De <span class="text-success font-weight-bold"><?php echo $flight->get_data()['depart']?></span> a
-                            <span class="text-success font-weight-bold"><?php echo $flight->get_data()['distination']?></span></p>
-                        <p>Nom <span class="text-success font-weight-bold"><?php echo $flight->get_data()['n_flight']?></span></p>
-                        <p>Depart <span class="text-success font-weight-bold"><?php echo $flight->get_data()['date_flight']?></span></p>
+                        <p>De <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['depart']?></span> a
+                            <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['distination']?></span></p>
+                        <p>Nom <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['n_flight']?></span></p>
+                        <p>Depart <span class="text-dark font-weight-bold"><?php echo $flight->get_data()['date_flight']?></span></p>
                         Les informations de Passager
 
                         <div class="form-group">
@@ -92,12 +92,12 @@ $flight->get_by_id((int) $_GET['id']);
                     <div class="card-footer" style="display: flex; justify-content: space-between;">
                         <div>
                             <p class="card-text">Total Price: <span
-                                    class="text-success font-weight-bold"><?php echo $flight->get_data()['price']?>Dhs</span></p>
+                                    class="text-dark font-weight-bold"><?php echo $flight->get_data()['price']?>Dhs</span></p>
                         </div>
 
                         <input type="hidden" name="idUser" value="<?php echo $_SESSION['id'];?>">
                         <input type="hidden" name="idFlight" value="<?php echo (int) $_GET['id'];?>">
-                        <button type="submit" class="btn btn-primary" name="reserve">Confirmer la reservation</button>
+                        <button type="submit" class="btn btn-success" name="reserve">Confirmer la reservation</button>
 
                     </div>
                 </div>

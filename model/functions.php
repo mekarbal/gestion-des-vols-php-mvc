@@ -23,9 +23,9 @@ function get_pass_objts($where=null){
     $query = "SELECT id_travler FROM passagers" . (!empty($where) ? " ".$where : "");
     $result = get_rows($query);
     while($row = mysqli_fetch_row($result)){
-        $travler = new Passager();
-        $travler->get_by_id($row[0]);
-        $objs[] = $travler;
+        $passager = new Passager();
+        $passager->get_by_id($row[0]);
+        $objs[] = $passager;
     }
     return $objs;
 }

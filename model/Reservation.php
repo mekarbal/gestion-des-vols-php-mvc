@@ -1,7 +1,7 @@
 <?php 
-require_once("AllFunction.php");
+require_once("Config.php");
 require_once("../model/Vol.php");
-class Reservation extends Functions{
+class Reservation extends Config{
 
     private $id_flight;
     private $id_user;
@@ -10,11 +10,11 @@ class Reservation extends Functions{
     function __construct(){
         $this->table_name = "Reservation";
         $this->id_name = "id_resevation";
-        Functions::__construct();
+        Config::__construct();
     }
 
     function __destruct(){
-        Functions::__destruct();
+        Config::__destruct();
     }
 
     public function get_data(){
@@ -25,7 +25,7 @@ class Reservation extends Functions{
         ];
     }
 
-    public function create_new($post, $names){
+    public function add_new($post, $names){
         $saved = true;
 
         $this->id_flight  = $this->eng_data($post, $names[0],$saved);
@@ -37,7 +37,7 @@ class Reservation extends Functions{
             $result = $this->mysqli->query($query);
             if($result){
                 $this->id = $this->mysqli->insert_id;
-                $this->has_row = true;
+                $this->has_field = true;
                 return true;
             }else{
                 die("Error in : " . $query . "<br>" . $this->mysqli->error );
@@ -57,7 +57,7 @@ class Reservation extends Functions{
                 $this->id_flight        = $row["id_flight"];
                 $this->id_user          = $row["id_user"];
                 $this->date_resevation  = $row["date_resevation"]; 
-                $this->has_row          = true;
+                $this->has_field          = true;
 
                 $result->free_result();
                 return $this;

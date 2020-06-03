@@ -19,20 +19,20 @@
     <nav class="navbar bg-primary navbar-dark mb-5">
     <a class="navbar-brand" href="../view/index.php">TM Air</a>
         <?php if(isset($_SESSION['id']) && $_SESSION["role"] == "user") { ?>
-        <span class="navbar-text mr-auto">
-        <span class="text-white small"> <?php echo $_SESSION['firstname'];?> (<i class="fas fa-user"></i>)</span>
-        </span>
-        <a class="nav-link text-white" href="../view/profile.php"><i class="fas fa-id-card"></i> Profil</a>
-        <a class="nav-link text-white" href="?log=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                <span class="navbar-text mr-auto">
+                <span class="text-white small"> </span>
+                </span>
+                <a class="nav-link text-white" href="../view/profile.php"><i class="fas fa-id-card"></i> <?php echo $_SESSION['firstname'];?> (<i class="fas fa-user"></i>)</a>
+                <a class="nav-link text-white" href="?log=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
 
         <?php }elseif(isset($_SESSION['id']) && $_SESSION["role"] == 'admin'){ ?>
-        <span class="navbar-text mr-auto">
-        <span class="text-white small"><?php echo $_SESSION['firstname'];?> (<i class="fas fa-user-cog"></i>)</span>
-        </span>
-        <a class="nav-link text-white" href="../view/profile.php"> <i class="fas fa-id-card"></i> Profil</a>
-        <a class="nav-link text-white" href="../view/gestion_admin.php"><i class="fas fa-tasks"></i> Vols</a>
-        <a class="nav-link text-white" href="?log=logout"> <i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                <span class="navbar-text mr-auto">
+                <span class="text-white small"></span>
+                </span>
+                <a class="nav-link text-white" href="../view/profile.php"> <i class="fas fa-id-card"></i> <?php echo $_SESSION['firstname'];?> (<i class="fas fa-user-cog"></i>)</a>
+                <a class="nav-link text-white" href="../view/gestion_admin.php"><i class="fas fa-tasks"></i> Vols</a>
+                <a class="nav-link text-white" href="?log=logout"> <i class="fas fa-sign-out-alt"></i> Déconnexion</a>
         <?php }else{ ?>
-        <a class="nav-link text-white ml-auto" href="../view/sign.php">Registre et Connexion</a>
+                <a class="nav-link text-white ml-auto" href="../view/sign.php">Registre et Connexion</a>
         <?php } ?>
     </nav>

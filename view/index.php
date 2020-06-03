@@ -10,10 +10,10 @@ open_connetion();
             <div class="form-group">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4">
-                        <select name="from" class="form-control my-3 " required>
+                        <select name="de" class="form-control my-3 " required>
                             
                             <option value="" disabled selected>Depart</option>
-                            <?php $result = get_rows("SELECT depart FROM flight ");
+                            <?php $result = get_rows("SELECT depart FROM flight WHERE statut=1 ");
                             
                                 while($row = mysqli_fetch_row($result)){ ?>
                                 
@@ -27,9 +27,9 @@ open_connetion();
                     </div>
 
                     <div class="col-xs-12 col-sm-4 ">
-                        <select name="to" class="form-control my-3" required>
+                        <select name="a" class="form-control my-3" required>
                             <option value="" disabled selected>Distination</option>
-                            <?php $result = get_rows("SELECT  distination FROM flight");
+                            <?php $result = get_rows("SELECT  distination FROM flight WHERE statut=1");
                                                                                                                     
                                 while($row = mysqli_fetch_row($result)){ ?>
                                 
@@ -56,12 +56,12 @@ open_connetion();
         <table class="table flights">
             <?php
                 $isreg      = true;
-                $depart      = data_regis($_POST, "from",  $isreg);
-                $distination = data_regis($_POST, "to", $isreg);
+                $depart      = data_regis($_POST, "de",  $isreg);
+                $distination = data_regis($_POST, "a", $isreg);
                 $objs     = [];
                 if( $isreg){
                     $objs = get_flights_objects(
-                        "WHERE depart = '{$depart}' AND distination = '{$distination}' AND total_places > 0 AND is_active = 1");
+                        "WHERE depart = '{$depart}' AND distination = '{$distination}' AND total_places > 0 AND statut = 1");
                     if(!empty( $objs )){
                         
             ?>

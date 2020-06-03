@@ -15,16 +15,16 @@ close_connection();
     <?php echo message();?>
     <ul class="nav nav-tabs justify-content-center mb-5">
         <li class="nav-item">
-            <a class="nav-link bg-primary text-white active" data-toggle="tab" href="#addFlight"><i class="fas fa-plus-circle"></i> Ajouter un Vol</a>
+            <a class="nav-link bg-primary text-white active" data-toggle="tab" href="#addF_light"><i class="fas fa-plus-circle"></i> Ajouter un Vol</a>
         </li>
         <li class="nav-item">
             <a class="nav-link bg-primary text-white" data-toggle="tab" href="#toggleFlight"><i class="far fa-list-alt"></i> La liste des Vols</a>
         </li>
     </ul>
     <div class=" mt-5">
-        <div class="tab-pane container active" style="border:2px solid  rgb(0, 0, 255,0.8) "id="addFlight">
+        <div class="tab-pane container active" style="border:2px solid  rgb(0, 0, 255,0.8) "id="add_Flight">
             <h1 class="text-center "><i class="fas fa-plus-square"></i> Ajouter Nouveau Vol </h1>
-            <!-- n_flight, depart, destination, date_flight, price, total_places,is_active -->
+            <!-- n_flight, depart, destination, date_flight, price, total_places,statut -->
             <form action="../controller/proc_vol.php" method="POST" class="needs-validation mt-4" novalidate>
                 <div class="form-group">
                     <div class="row">
@@ -72,21 +72,21 @@ close_connection();
                                 name="places" required>
                         </div><br>
                         <div class="col-xs-12 col-sm-6 col-lg-3 my-2">
-                            <label for="idcard" class="font-weight-bold">le prix</label>
+                            <label for="cin" class="font-weight-bold">le prix</label>
                             <input type="text" class="form-control" id="price" placeholder="Prix de vol" name="price"
                                 required>
                         </div><br>
                         <div class="col-xs-12 col-sm-6 col-lg-3 my-2">
                             <label class="mr-3 font-weight-bold">L'état:</label>
                             <div class="form-control">
-                            <label  class="mr-3 font-weight-bold">OUI <input type="radio" class="form-control" name="isActive" value="1"
+                            <label  class="mr-3 font-weight-bold">Aciver <input type="radio" class="form-control" name="isActive" value="1"
                                     checked></label>
-                            <label class="mr-3 font-weight-bold">Non<input type="radio" class="form-control" name="isActive" value="0"></label>
+                            <label class="mr-3 font-weight-bold">Annuler<input type="radio" class="form-control" name="isActive" value="0"></label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success mb-5 font-weight-bold" name="addPlane">Ajouter</button>
+                <button type="submit" class="btn btn-success mb-5 font-weight-bold" name="add_flight">Ajouter</button>
             </form>
 
         </div>
@@ -118,13 +118,13 @@ close_connection();
                 <th><?php echo $flight->get_data()["total_places"];?></th>
                 <form action="../controller/proc_vol.php" method="POST">
                 <?php 
-                if($flight->get_data()["is_active"] == 1){
+                if($flight->get_data()["statut"] == 1){
                 ?>
-                <th><button type="submit" value="<?php echo $flight->get_id();?>" name="switch" class="btn btn-warning btn-sm">Annuler</th>
+                <th><button type="submit" value="<?php echo $flight->get_id();?>" name="change" class="btn btn-warning btn-sm">Annuler</th>
                 <?php
                 }else {
                 ?>
-                <th><button type="submit" value="<?php echo $flight->get_id();?>" name="switch" class="btn btn-success btn-sm">Activer</button></th>
+                <th><button type="submit" value="<?php echo $flight->get_id();?>" name="change" class="btn btn-success btn-sm">Activer</button></th>
                 <?php }} ?>
                 
                 </form>
